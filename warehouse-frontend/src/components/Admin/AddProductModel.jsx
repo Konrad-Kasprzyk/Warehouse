@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Button, Col, Container, Modal, Row } from "react-bootstrap";
-import { ProductModelAPI } from "../../api/productModel.api";
+import React, { useState } from 'react';
+import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
+import { ProductModelAPI } from '../../api/productModel.api';
 
 function AddProductModel() {
   // @ts-ignore
-  const [productModelName, setProductModelName] = useState("");
-  const [productModelBrand, setProductModelBrand] = useState("");
-  const [productModelPartNumber, setProductModelPartNumber] = useState("");
+  const [productModelName, setProductModelName] = useState('');
+  const [productModelBrand, setProductModelBrand] = useState('');
+  const [productModelPartNumber, setProductModelPartNumber] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
 
   function displayModal(err, title) {
     setModalTitle(title);
@@ -19,13 +19,22 @@ function AddProductModel() {
 
   async function addProductModel() {
     try {
-      if (!productModelName) throw new Error("Please enter product model name");
-      if (!productModelBrand) throw new Error("Please enter product model brand");
-      if (!productModelPartNumber) throw new Error("Please enter product model part number");
-      await ProductModelAPI.add(productModelName, productModelBrand, productModelPartNumber);
-      displayModal(`Product model ${productModelName} added.`, "Product model added");
+      if (!productModelName) throw new Error('Please enter product model name');
+      if (!productModelBrand)
+        throw new Error('Please enter product model brand');
+      if (!productModelPartNumber)
+        throw new Error('Please enter product model part number');
+      await ProductModelAPI.add(
+        productModelName,
+        productModelBrand,
+        productModelPartNumber,
+      );
+      displayModal(
+        `Product model ${productModelName} added.`,
+        'Product model added',
+      );
     } catch (err) {
-      displayModal(err, "Product model not added");
+      displayModal(err, 'Product model not added');
     }
   }
 

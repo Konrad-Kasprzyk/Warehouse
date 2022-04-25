@@ -1,15 +1,16 @@
-import { ITaskRepository } from "../../../Application/Repositories/ITaskRepository";
-import { TaskStatuses } from "../../../Domain/Model/Task/task";
-import { EntityManager, Repository } from "typeorm";
-import { Hall } from "../Entities/Hall.entity";
-import { Task } from "../Entities/Task.entity";
-import { Employee } from "../Entities/Employee.entity";
-import { TaskDetails } from "../Entities/TaskDetails.entity";
+import { ITaskRepository } from '../../../Application/Repositories/ITaskRepository';
+import { TaskStatuses } from '../../../Domain/Model/Task/task';
+import { EntityManager, Repository } from 'typeorm';
+import { Hall } from '../Entities/Hall.entity';
+import { Task } from '../Entities/Task.entity';
+import { Employee } from '../Entities/Employee.entity';
+import { TaskDetails } from '../Entities/TaskDetails.entity';
 
 export class TaskRepo implements ITaskRepository {
   constructor(entityManager: EntityManager) {
     this.taskRepository = entityManager.getRepository<Task>(Task);
-    this.taskDetailsRepository = entityManager.getRepository<TaskDetails>(TaskDetails);
+    this.taskDetailsRepository =
+      entityManager.getRepository<TaskDetails>(TaskDetails);
   }
   private taskRepository: Repository<Task>;
   private taskDetailsRepository: Repository<TaskDetails>;
@@ -27,7 +28,7 @@ export class TaskRepo implements ITaskRepository {
     hall: Hall,
     employee: Employee,
     status: TaskStatuses,
-    activationDate: Date
+    activationDate: Date,
   ): Promise<Task[]> {
     let query: {
       Hall?: Hall;
@@ -59,7 +60,7 @@ export class TaskRepo implements ITaskRepository {
         (task) =>
           task.ActiveTime &&
           start.getTime() <= task.ActiveTime.getTime() &&
-          task.ActiveTime.getTime() <= end.getTime()
+          task.ActiveTime.getTime() <= end.getTime(),
       );
     }
     return tasks;

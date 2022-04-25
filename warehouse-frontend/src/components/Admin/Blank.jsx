@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function Blank() {
   return <div>Choose action</div>;

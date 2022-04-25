@@ -1,10 +1,11 @@
-import { IProductModelRepository } from "../../../Application/Repositories/IProductModelRepository";
-import { EntityManager, Repository } from "typeorm";
-import { ProductModel } from "../Entities/ProductModel.entity";
+import { IProductModelRepository } from '../../../Application/Repositories/IProductModelRepository';
+import { EntityManager, Repository } from 'typeorm';
+import { ProductModel } from '../Entities/ProductModel.entity';
 
 export class ProductModelRepo implements IProductModelRepository {
   constructor(entityManager: EntityManager) {
-    this.productModelRepository = entityManager.getRepository<ProductModel>(ProductModel);
+    this.productModelRepository =
+      entityManager.getRepository<ProductModel>(ProductModel);
   }
   private productModelRepository: Repository<ProductModel>;
 
@@ -23,7 +24,8 @@ export class ProductModelRepo implements IProductModelRepository {
 
   async RemoveProductModel(id: number): Promise<ProductModel> {
     const productModel = await this.productModelRepository.findOne({ id: id });
-    if (!productModel) return Promise.reject(`Product model with id ${id} not found`);
+    if (!productModel)
+      return Promise.reject(`Product model with id ${id} not found`);
     return await this.productModelRepository.remove(productModel);
   }
 

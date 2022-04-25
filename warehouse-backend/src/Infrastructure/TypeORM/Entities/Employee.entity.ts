@@ -1,4 +1,7 @@
-import { Roles, Employee as DomainEmployee } from "../../../Domain/Model/Employee/employee";
+import {
+  Roles,
+  Employee as DomainEmployee,
+} from '../../../Domain/Model/Employee/employee';
 import {
   AfterInsert,
   AfterLoad,
@@ -12,14 +15,14 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Hall } from "./Hall.entity";
-import { Task } from "./Task.entity";
+} from 'typeorm';
+import { Hall } from './Hall.entity';
+import { Task } from './Task.entity';
 
 @Entity()
 export class Employee extends DomainEmployee {
   constructor() {
-    super("name", "surname", Roles.Employee);
+    super('name', 'surname', Roles.Employee);
   }
   @PrimaryGeneratedColumn()
   id: number;
@@ -31,7 +34,7 @@ export class Employee extends DomainEmployee {
   Surname: string;
 
   @Column({
-    type: "simple-enum",
+    type: 'simple-enum',
     enum: Roles,
     default: Roles.Employee,
   })
@@ -39,7 +42,7 @@ export class Employee extends DomainEmployee {
 
   @OneToOne(() => Task, (task) => task.employeeActiveTask, {
     eager: true,
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   @JoinColumn()
@@ -47,20 +50,23 @@ export class Employee extends DomainEmployee {
 
   @OneToMany(() => Task, (task) => task.employeeFinishedTask, {
     eager: true,
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   Tasks: Task[];
 
   @OneToMany(() => Task, (task) => task.employeeCancelledTask, {
     eager: true,
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   CancelledTasks: Task[];
 
   // Property required for ORM relation
-  @ManyToOne(() => Hall, (hall) => hall.Employees, { onDelete: "SET NULL", nullable: true })
+  @ManyToOne(() => Hall, (hall) => hall.Employees, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   Hall: Hall;
 
   @BeforeInsert()

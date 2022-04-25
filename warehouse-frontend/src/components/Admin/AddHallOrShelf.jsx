@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Dropdown, Modal, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { HallAPI } from "../../api/hall.api";
-import { addHall, updateHall } from "../../features/halls";
-import { v4 as uuidv4 } from "uuid";
-import { ShelfAPI } from "../../api/shelf.api";
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Col, Container, Dropdown, Modal, Row } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { HallAPI } from '../../api/hall.api';
+import { addHall, updateHall } from '../../features/halls';
+import { v4 as uuidv4 } from 'uuid';
+import { ShelfAPI } from '../../api/shelf.api';
 
 function AddHallOrShelf() {
   // @ts-ignore
   const halls = useSelector((state) => state.halls.value);
   const dispatch = useDispatch();
   const [hallNumber, setHallNumber] = useState(null);
-  const [shelfPurpose, setShelfPurpose] = useState("");
+  const [shelfPurpose, setShelfPurpose] = useState('');
   const nextHallNumber = useRef(0);
   const nextShelfNumber = useRef(0);
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
 
   useEffect(() => {
     if (halls.length == 0) return;
@@ -25,7 +25,8 @@ function AddHallOrShelf() {
     halls.forEach((hall) => {
       if (highestHallNumber < hall.Number) highestHallNumber = hall.Number;
       hall.Shelves.forEach((shelf) => {
-        if (highestShelfNumber < shelf.Number) highestShelfNumber = shelf.Number;
+        if (highestShelfNumber < shelf.Number)
+          highestShelfNumber = shelf.Number;
       });
     });
     if (highestHallNumber >= nextHallNumber.current) {
@@ -48,7 +49,10 @@ function AddHallOrShelf() {
     return (
       <Dropdown.Menu>
         {halls.map((hall) => (
-          <Dropdown.Item key={hall.id} onClick={() => setHallNumber(hall.Number)}>
+          <Dropdown.Item
+            key={hall.id}
+            onClick={() => setHallNumber(hall.Number)}
+          >
             {hall.Number}
           </Dropdown.Item>
         ))}
@@ -59,26 +63,37 @@ function AddHallOrShelf() {
   async function addNewHall() {
     try {
       const newHall = await HallAPI.add(nextHallNumber.current);
-      displayModal(`Hall number ${nextHallNumber.current} added.`, "Hall added");
+      displayModal(
+        `Hall number ${nextHallNumber.current} added.`,
+        'Hall added',
+      );
       nextHallNumber.current++;
       dispatch(addHall(newHall));
     } catch (err) {
-      displayModal(err, "Hall not added");
+      displayModal(err, 'Hall not added');
     }
   }
 
   async function addShelf() {
     try {
-      if (!hallNumber) throw new Error("Choose hall");
-      if (!shelfPurpose) throw new Error("Choose shelf purpose");
+      if (!hallNumber) throw new Error('Choose hall');
+      if (!shelfPurpose) throw new Error('Choose shelf purpose');
       const shelfGtin = uuidv4();
-      await ShelfAPI.add(hallNumber, nextShelfNumber.current, shelfGtin, shelfPurpose);
-      displayModal(`${shelfPurpose} shelf number ${nextShelfNumber.current} added.`, "Shelf added");
+      await ShelfAPI.add(
+        hallNumber,
+        nextShelfNumber.current,
+        shelfGtin,
+        shelfPurpose,
+      );
+      displayModal(
+        `${shelfPurpose} shelf number ${nextShelfNumber.current} added.`,
+        'Shelf added',
+      );
       nextShelfNumber.current++;
       const newHall = await HallAPI.get(hallNumber);
       dispatch(updateHall(newHall));
     } catch (err) {
-      displayModal(err, "Shelf not added");
+      displayModal(err, 'Shelf not added');
     }
   }
 
@@ -111,9 +126,15 @@ function AddHallOrShelf() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setShelfPurpose("Delivery")}>Delivery</Dropdown.Item>
-              <Dropdown.Item onClick={() => setShelfPurpose("Storage")}>Storage</Dropdown.Item>
-              <Dropdown.Item onClick={() => setShelfPurpose("Shipment")}>Shipment</Dropdown.Item>
+              <Dropdown.Item onClick={() => setShelfPurpose('Delivery')}>
+                Delivery
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setShelfPurpose('Storage')}>
+                Storage
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setShelfPurpose('Shipment')}>
+                Shipment
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <div className="pt-1">{shelfPurpose}</div>

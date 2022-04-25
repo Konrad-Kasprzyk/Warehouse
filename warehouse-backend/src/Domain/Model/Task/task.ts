@@ -1,18 +1,18 @@
-import { Shelf } from "../Hall/shelf";
-import { Product } from "../Product/product";
-import { TaskDetails } from "./taskDetails";
+import { Shelf } from '../Hall/shelf';
+import { Product } from '../Product/product';
+import { TaskDetails } from './taskDetails';
 
 export enum TaskStatuses {
-  Queued = "Queued",
-  Active = "Active",
-  Cancelled = "Cancelled",
-  Finished = "Finished",
+  Queued = 'Queued',
+  Active = 'Active',
+  Cancelled = 'Cancelled',
+  Finished = 'Finished',
 }
 
 export enum TaskCancelCauses {
-  LackOfSpace = "LackOfSpace",
-  ProductsMissing = "ProductsMissing",
-  Other = "Other",
+  LackOfSpace = 'LackOfSpace',
+  ProductsMissing = 'ProductsMissing',
+  Other = 'Other',
 }
 
 /** Store single task information like assigned employee, task status and status change timestamps.
@@ -23,7 +23,7 @@ export class Task {
    *  @throws Task is missing task details.
    */
   constructor(taskDetails: TaskDetails) {
-    if (!taskDetails) throw new Error("Task is missing task details.");
+    if (!taskDetails) throw new Error('Task is missing task details.');
     this.TaskDetails = taskDetails;
     this.Status = TaskStatuses.Queued;
     this.QueueTime = new Date();
@@ -47,7 +47,7 @@ export class Task {
    */
   Activate(): void {
     if (this.Status != TaskStatuses.Queued)
-      throw new Error("To activate task, the task must have queued status.");
+      throw new Error('To activate task, the task must have queued status.');
     this.ActiveTime = new Date();
     this.Status = TaskStatuses.Active;
   }
@@ -57,7 +57,7 @@ export class Task {
    */
   Cancel(cancelCause: TaskCancelCauses): void {
     if (this.Status != TaskStatuses.Active)
-      throw new Error("To cancel task, the task must have active status.");
+      throw new Error('To cancel task, the task must have active status.');
     this.CancelTime = new Date();
     this.Status = TaskStatuses.Cancelled;
     this.TaskCancelCause = cancelCause;
@@ -68,9 +68,9 @@ export class Task {
    */
   Finish(): void {
     if (this.Status != TaskStatuses.Active)
-      throw new Error("To finish task, the task must have active status.");
+      throw new Error('To finish task, the task must have active status.');
     if (this.TaskDetails.IsCompleted() == false)
-      throw new Error("Not all required scans were performed in the task.");
+      throw new Error('Not all required scans were performed in the task.');
     this.FinishTime = new Date();
     this.Status = TaskStatuses.Finished;
   }
@@ -83,7 +83,9 @@ export class Task {
    */
   ScanShelf(shelf: Shelf): boolean {
     if (this.Status != TaskStatuses.Active)
-      throw new Error("Task is not in active state, but shelf scan was requested.");
+      throw new Error(
+        'Task is not in active state, but shelf scan was requested.',
+      );
     return this.TaskDetails.ScanShelf(shelf);
   }
 
@@ -95,7 +97,9 @@ export class Task {
    */
   ScanProduct(product: Product): boolean {
     if (this.Status != TaskStatuses.Active)
-      throw new Error("Task is not in active state, but product scan was requested.");
+      throw new Error(
+        'Task is not in active state, but product scan was requested.',
+      );
     return this.TaskDetails.ScanProduct(product);
   }
 }

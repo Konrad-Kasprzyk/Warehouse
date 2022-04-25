@@ -7,11 +7,11 @@ import {
   Param,
   Post,
   Query,
-} from "@nestjs/common";
-import { TaskService } from "../Application/Services/task.service";
-import { Task } from "../Domain/Model/Task/task";
+} from '@nestjs/common';
+import { TaskService } from '../Application/Services/task.service';
+import { Task } from '../Domain/Model/Task/task';
 
-@Controller("task")
+@Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
   @Get()
@@ -19,7 +19,7 @@ export class TaskController {
     return await this.taskService.GetAllTasks();
   }
 
-  @Get("filter")
+  @Get('filter')
   async filterTasks(
     @Query()
     query: {
@@ -27,25 +27,31 @@ export class TaskController {
       employeeId: number;
       taskStatus: string;
       activationDate: string;
-    }
+    },
   ): Promise<Task[]> {
     try {
-      const activationDate = query.activationDate ? new Date(query.activationDate) : null;
+      const activationDate = query.activationDate
+        ? new Date(query.activationDate)
+        : null;
       return await this.taskService.FilterTasks(
         query.hallNumber,
         query.employeeId,
         query.taskStatus,
-        activationDate
+        activationDate,
       );
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
-  @Get(":id")
-  async getOne(@Param("id") id: number): Promise<Task> {
+  @Get(':id')
+  async getOne(@Param('id') id: number): Promise<Task> {
     const task = await this.taskService.GetTask(id);
-    if (!task) throw new HttpException(`Task with id ${id} not found`, HttpStatus.NOT_FOUND);
+    if (!task)
+      throw new HttpException(
+        `Task with id ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
     return task;
   }
 
@@ -57,21 +63,21 @@ export class TaskController {
       startingShelfGtin: string;
       destinationShelfGtin: string;
       scansRequired: number;
-    }
+    },
   ): Promise<Task> {
     try {
       return await this.taskService.AddTask(
         body.hallNumber,
         body.startingShelfGtin,
         body.destinationShelfGtin,
-        body.scansRequired
+        body.scansRequired,
       );
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
-  @Post("delete")
+  @Post('delete')
   async removeTask(@Body() body: { id: number }): Promise<Task> {
     try {
       return await this.taskService.RemoveTask(body.id);
@@ -80,13 +86,13 @@ export class TaskController {
     }
   }
 
-  @Post("scanProduct")
+  @Post('scanProduct')
   async scanProduct(
     @Body()
     body: {
       taskId: number;
       productGtin: string;
-    }
+    },
   ): Promise<Task> {
     try {
       return await this.taskService.ScanProduct(body.taskId, body.productGtin);
@@ -95,13 +101,13 @@ export class TaskController {
     }
   }
 
-  @Post("scanShelf")
+  @Post('scanShelf')
   async scanShelf(
     @Body()
     body: {
       taskId: number;
       shelfGtin: string;
-    }
+    },
   ): Promise<Task> {
     try {
       return await this.taskService.ScanShelf(body.taskId, body.shelfGtin);
@@ -110,50 +116,56 @@ export class TaskController {
     }
   }
 
-  @Post("activateTask")
+  @Post('activateTask')
   async activateTask(
     @Body()
     body: {
       taskId: number;
       assignedEmployeeId: number;
-    }
+    },
   ): Promise<Task> {
     try {
-      return await this.taskService.ActivateTask(body.taskId, body.assignedEmployeeId);
+      return await this.taskService.ActivateTask(
+        body.taskId,
+        body.assignedEmployeeId,
+      );
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
-  @Post("finishTask")
+  @Post('finishTask')
   async finishTask(
     @Body()
     body: {
       employeeId: number;
       hallNumber: number;
-    }
+    },
   ): Promise<Task> {
     try {
-      return await this.taskService.FinishTask(body.employeeId, body.hallNumber);
+      return await this.taskService.FinishTask(
+        body.employeeId,
+        body.hallNumber,
+      );
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
-  @Post("cancelTask")
+  @Post('cancelTask')
   async cancelTask(
     @Body()
     body: {
       employeeId: number;
       managerId: number;
       taskCancelCause: string;
-    }
+    },
   ): Promise<Task> {
     try {
       return await this.taskService.CancelTask(
         body.employeeId,
         body.managerId,
-        body.taskCancelCause
+        body.taskCancelCause,
       );
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);

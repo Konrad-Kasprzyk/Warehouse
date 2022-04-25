@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Col, Container, Dropdown, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import ManagerEmployee from "./ManagerEmployee";
+import React, { useEffect, useState } from 'react';
+import { Col, Container, Dropdown, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import ManagerEmployee from './ManagerEmployee';
 
 function ManagerViewEmployees() {
   // @ts-ignore
@@ -36,7 +36,7 @@ function ManagerViewEmployees() {
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
-        <div className="mt-2">{hall ? "Hall number " + hall.Number : ""}</div>
+        <div className="mt-2">{hall ? 'Hall number ' + hall.Number : ''}</div>
       </Dropdown>
     );
   }
@@ -49,15 +49,18 @@ function ManagerViewEmployees() {
         </Dropdown.Toggle>
         <Dropdown.Menu>
           {filteredEmployees
-            .filter((employee) => employee.Role == "Manager")
+            .filter((employee) => employee.Role == 'Manager')
             .map((manager) => (
-              <Dropdown.Item key={manager.id} onClick={() => setManager(manager)}>
-                {manager.Name + " " + manager.Surname}
+              <Dropdown.Item
+                key={manager.id}
+                onClick={() => setManager(manager)}
+              >
+                {manager.Name + ' ' + manager.Surname}
               </Dropdown.Item>
             ))}
         </Dropdown.Menu>
         <div className="mt-2">
-          {manager ? "Manager " + manager.Name + " " + manager.Surname : ""}
+          {manager ? 'Manager ' + manager.Name + ' ' + manager.Surname : ''}
         </div>
       </Dropdown>
     );
@@ -73,7 +76,11 @@ function ManagerViewEmployees() {
         <Col>
           {filteredEmployees.map((employee) => (
             <div className="pt-3" key={employee.id}>
-              <ManagerEmployee manager={manager} hall={hall} employeeId={employee.id} />
+              <ManagerEmployee
+                manager={manager}
+                hall={hall}
+                employeeId={employee.id}
+              />
             </div>
           ))}
         </Col>

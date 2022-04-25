@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import { Connection, getConnection, QueryRunner } from "typeorm";
-import { IUnitOfWork } from "../../Application/IUnitOfWork";
-import { EmployeeRepo } from "./Repositories/EmployeeRepository";
-import { HallRepo } from "./Repositories/HallRepository";
-import { ProductModelRepo } from "./Repositories/ProductModelRepository";
-import { ProductRepo } from "./Repositories/ProductRepository";
-import { TaskRepo } from "./Repositories/TaskRepository";
+import { Injectable } from '@nestjs/common';
+import { Connection, getConnection, QueryRunner } from 'typeorm';
+import { IUnitOfWork } from '../../Application/IUnitOfWork';
+import { EmployeeRepo } from './Repositories/EmployeeRepository';
+import { HallRepo } from './Repositories/HallRepository';
+import { ProductModelRepo } from './Repositories/ProductModelRepository';
+import { ProductRepo } from './Repositories/ProductRepository';
+import { TaskRepo } from './Repositories/TaskRepository';
 
 @Injectable()
 export class TestTypeOrmUoW implements IUnitOfWork {
@@ -19,7 +19,9 @@ export class TestTypeOrmUoW implements IUnitOfWork {
   private _task: TaskRepo;
   private queryRunner: QueryRunner;
 
-  async InTransaction<T>(callback: (uow: TestTypeOrmUoW) => Promise<T>): Promise<T> {
+  async InTransaction<T>(
+    callback: (uow: TestTypeOrmUoW) => Promise<T>,
+  ): Promise<T> {
     var transactionTypeOrmUoW = new TestTypeOrmUoW(getConnection());
     let result: T;
     try {
@@ -52,7 +54,8 @@ export class TestTypeOrmUoW implements IUnitOfWork {
   }
 
   get Employee(): EmployeeRepo {
-    if (!this._employee) this._employee = new EmployeeRepo(this.queryRunner.manager);
+    if (!this._employee)
+      this._employee = new EmployeeRepo(this.queryRunner.manager);
     return this._employee;
   }
 
@@ -62,12 +65,14 @@ export class TestTypeOrmUoW implements IUnitOfWork {
   }
 
   get Product(): ProductRepo {
-    if (!this._product) this._product = new ProductRepo(this.queryRunner.manager);
+    if (!this._product)
+      this._product = new ProductRepo(this.queryRunner.manager);
     return this._product;
   }
 
   get ProductModel(): ProductModelRepo {
-    if (!this._productModel) this._productModel = new ProductModelRepo(this.queryRunner.manager);
+    if (!this._productModel)
+      this._productModel = new ProductModelRepo(this.queryRunner.manager);
     return this._productModel;
   }
 

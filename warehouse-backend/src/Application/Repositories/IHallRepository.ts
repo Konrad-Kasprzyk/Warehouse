@@ -1,6 +1,6 @@
-import { Hall } from "../../Domain/Model/Hall/hall";
-import { Shelf, ShelfPurposes } from "../../Domain/Model/Hall/shelf";
-import { ProductModel } from "../../Domain/Model/ProductModel/productModel";
+import { Hall } from '../../Domain/Model/Hall/hall';
+import { Shelf, ShelfPurposes } from '../../Domain/Model/Hall/shelf';
+import { ProductModel } from '../../Domain/Model/ProductModel/productModel';
 
 export interface IHallRepository {
   AddHall(hall: Hall): Promise<Hall>;
@@ -18,7 +18,7 @@ export interface IHallRepository {
   FilterShelves(
     hall: Hall,
     productModel: ProductModel,
-    shelfPurpose: ShelfPurposes
+    shelfPurpose: ShelfPurposes,
   ): Promise<Shelf[]>;
 
   GetShelf(gtin: string): Promise<Shelf>;

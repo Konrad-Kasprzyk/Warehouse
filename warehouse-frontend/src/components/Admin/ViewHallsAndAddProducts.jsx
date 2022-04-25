@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Dropdown, Modal, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { HallAPI } from "../../api/hall.api";
-import { ProductAPI } from "../../api/product.api";
-import { ProductModelAPI } from "../../api/productModel.api";
-import { updateHall } from "../../features/halls";
-import { v4 as uuidv4 } from "uuid";
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Dropdown, Modal, Row } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { HallAPI } from '../../api/hall.api';
+import { ProductAPI } from '../../api/product.api';
+import { ProductModelAPI } from '../../api/productModel.api';
+import { updateHall } from '../../features/halls';
+import { v4 as uuidv4 } from 'uuid';
 
 function ViewHallsAndAddProducts() {
   // @ts-ignore
@@ -18,8 +18,8 @@ function ViewHallsAndAddProducts() {
   const [filteredShelves, setFilteredShelves] = useState([]);
   const [productModels, setProductModels] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
 
   function displayModal(err, title) {
     setModalTitle(title);
@@ -44,7 +44,7 @@ function ViewHallsAndAddProducts() {
               setHall(hall);
               setFilteredShelves(hall.Shelves);
               setShelf(null);
-              setShelfPurpose("");
+              setShelfPurpose('');
               setProductModel(null);
             }}
           >
@@ -63,14 +63,17 @@ function ViewHallsAndAddProducts() {
         </Dropdown.Toggle>
         <Dropdown.Menu>
           {productModels.map((productModel) => (
-            <Dropdown.Item key={productModel.id} onClick={() => setProductModel(productModel)}>
+            <Dropdown.Item
+              key={productModel.id}
+              onClick={() => setProductModel(productModel)}
+            >
               <div>{productModel.Brand}</div>
               <div>{productModel.PartNumber}</div>
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
-        <div className="pt-2">{productModel ? productModel.Brand : ""}</div>
-        <div>{productModel ? productModel.PartNumber : ""}</div>
+        <div className="pt-2">{productModel ? productModel.Brand : ''}</div>
+        <div>{productModel ? productModel.PartNumber : ''}</div>
       </Dropdown>
     );
   }
@@ -96,52 +99,63 @@ function ViewHallsAndAddProducts() {
               {shelf.ProductModelBrand ? (
                 <>
                   <div>Product model brand: {shelf.ProductModelBrand}</div>
-                  <div>Product model part number: {shelf.ProductModelPartNumber}</div>
+                  <div>
+                    Product model part number: {shelf.ProductModelPartNumber}
+                  </div>
                 </>
               ) : (
-                "No product model"
+                'No product model'
               )}
 
-              <div>Products: {shelf.ProductGtins ? shelf.ProductGtins.length : 0} </div>
+              <div>
+                Products: {shelf.ProductGtins ? shelf.ProductGtins.length : 0}{' '}
+              </div>
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
-        <div className="pt-2">{shelf ? shelf.Number : ""}</div>
+        <div className="pt-2">{shelf ? shelf.Number : ''}</div>
       </Dropdown>
     );
   }
 
   async function addProduct() {
     try {
-      if (!hall) throw new Error("Choose hall");
-      if (!shelf) throw new Error("Choose shelf");
-      if (!productModel && (!shelf.ProductModelPartNumber || !shelf.ProductModelBrand))
+      if (!hall) throw new Error('Choose hall');
+      if (!shelf) throw new Error('Choose shelf');
+      if (
+        !productModel &&
+        (!shelf.ProductModelPartNumber || !shelf.ProductModelBrand)
+      )
         throw new Error(
-          "Chosen shelf doesn't have product model assigned and product model was not chosen."
+          "Chosen shelf doesn't have product model assigned and product model was not chosen.",
         );
       let productModelId = productModel ? productModel.id : null;
       if (!productModelId)
         productModelId = productModels.find(
           (productModel) =>
             productModel.PartNumber == shelf.ProductModelPartNumber &&
-            productModel.Brand == shelf.ProductModelBrand
+            productModel.Brand == shelf.ProductModelBrand,
         ).id;
       await ProductAPI.add(hall.Number, shelf.Gtin, productModelId, uuidv4());
       const updatedHall = await HallAPI.get(hall.Number);
       dispatch(updateHall(updatedHall));
       setHall(updatedHall);
-      const updatedShelf = updatedHall.Shelves.find((updatedShelf) => updatedShelf.id == shelf.id);
+      const updatedShelf = updatedHall.Shelves.find(
+        (updatedShelf) => updatedShelf.id == shelf.id,
+      );
       setShelf(updatedShelf);
-      const index = filteredShelves.findIndex((shelf) => shelf.id == updatedShelf.id);
+      const index = filteredShelves.findIndex(
+        (shelf) => shelf.id == updatedShelf.id,
+      );
       const newFilteredShelves = JSON.parse(JSON.stringify(filteredShelves));
       newFilteredShelves[index] = updatedShelf;
       setFilteredShelves(newFilteredShelves);
       displayModal(
         `Product added to ${updatedShelf.ShelfPurpose} shelf number ${updatedShelf.Number}.`,
-        "Product added"
+        'Product added',
       );
     } catch (err) {
-      displayModal(err, "Product not added");
+      displayModal(err, 'Product not added');
     }
   }
 
@@ -157,7 +171,7 @@ function ViewHallsAndAddProducts() {
 
               {renderHallsDropdownMenu()}
             </Dropdown>
-            <div className="pt-2">{hall ? hall.Number : ""}</div>
+            <div className="pt-2">{hall ? hall.Number : ''}</div>
           </div>
         </Col>
         <Col>
@@ -170,11 +184,13 @@ function ViewHallsAndAddProducts() {
               <Dropdown.Item
                 onClick={() => {
                   setFilteredShelves(
-                    hall.Shelves.filter((shelf) => shelf.ShelfPurpose == "Delivery")
+                    hall.Shelves.filter(
+                      (shelf) => shelf.ShelfPurpose == 'Delivery',
+                    ),
                   );
                   setShelf(null);
                   setProductModel(null);
-                  setShelfPurpose("Delivery");
+                  setShelfPurpose('Delivery');
                 }}
               >
                 Delivery
@@ -182,11 +198,13 @@ function ViewHallsAndAddProducts() {
               <Dropdown.Item
                 onClick={() => {
                   setFilteredShelves(
-                    hall.Shelves.filter((shelf) => shelf.ShelfPurpose == "Storage")
+                    hall.Shelves.filter(
+                      (shelf) => shelf.ShelfPurpose == 'Storage',
+                    ),
                   );
                   setShelf(null);
                   setProductModel(null);
-                  setShelfPurpose("Storage");
+                  setShelfPurpose('Storage');
                 }}
               >
                 Storage
@@ -194,11 +212,13 @@ function ViewHallsAndAddProducts() {
               <Dropdown.Item
                 onClick={() => {
                   setFilteredShelves(
-                    hall.Shelves.filter((shelf) => shelf.ShelfPurpose == "Shipment")
+                    hall.Shelves.filter(
+                      (shelf) => shelf.ShelfPurpose == 'Shipment',
+                    ),
                   );
                   setShelf(null);
                   setProductModel(null);
-                  setShelfPurpose("Shipment");
+                  setShelfPurpose('Shipment');
                 }}
               >
                 Shipment
@@ -208,7 +228,7 @@ function ViewHallsAndAddProducts() {
                   setFilteredShelves(hall.Shelves);
                   setShelf(null);
                   setProductModel(null);
-                  setShelfPurpose("");
+                  setShelfPurpose('');
                 }}
               >
                 Clear
@@ -218,10 +238,15 @@ function ViewHallsAndAddProducts() {
           <div className="pt-1">{shelfPurpose}</div>
         </Col>
       </Row>
-      {!hall ? <div>Please choose hall to view shelves.</div> : ""}
+      {!hall ? <div>Please choose hall to view shelves.</div> : ''}
       <Row>
-        <Col>{hall ? renderShelvesDropdownMenu() : ""}</Col>
-        <Col> {shelf && !shelf.ProductModelBrand ? renderProductModelsDropdownMenu() : ""}</Col>
+        <Col>{hall ? renderShelvesDropdownMenu() : ''}</Col>
+        <Col>
+          {' '}
+          {shelf && !shelf.ProductModelBrand
+            ? renderProductModelsDropdownMenu()
+            : ''}
+        </Col>
       </Row>
       <Row className="mt-3">
         <Col>
@@ -230,7 +255,7 @@ function ViewHallsAndAddProducts() {
               Add product
             </Button>
           ) : (
-            ""
+            ''
           )}
         </Col>
       </Row>

@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const hallsSlice = createSlice({
-  name: "halls",
+  name: 'halls',
   initialState: { value: [] },
   reducers: {
     replaceAllHalls: (state, action) => {
@@ -10,7 +10,9 @@ export const hallsSlice = createSlice({
 
     updateHall: (state, action) => {
       const newHall = action.payload;
-      const currentHallIndex = state.value.findIndex((hall) => hall.id === newHall.id);
+      const currentHallIndex = state.value.findIndex(
+        (hall) => hall.id === newHall.id,
+      );
       if (currentHallIndex < 0) return;
       state.value[currentHallIndex] = newHall;
     },
@@ -29,6 +31,7 @@ export const hallsSlice = createSlice({
   },
 });
 
-export const { replaceAllHalls, updateHall, addHall, removeHall } = hallsSlice.actions;
+export const { replaceAllHalls, updateHall, addHall, removeHall } =
+  hallsSlice.actions;
 
 export default hallsSlice.reducer;

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Col, Container, Dropdown, ListGroup, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import EmployeeQueuedTask from "./Common/EmployeeQueuedTask";
+import React, { useEffect, useState } from 'react';
+import { Col, Container, Dropdown, ListGroup, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import EmployeeQueuedTask from './Common/EmployeeQueuedTask';
 
 function ViewQueuedTasks() {
   // @ts-ignore
@@ -19,13 +19,15 @@ function ViewQueuedTasks() {
   useEffect(() => {
     async function filter() {
       if (!hall) return;
-      let filteredTasks = hall.Tasks.filter((task) => task.Status == "Queued");
+      let filteredTasks = hall.Tasks.filter((task) => task.Status == 'Queued');
       filteredTasks = JSON.parse(JSON.stringify(filteredTasks));
       filteredTasks.forEach((task) => {
-        task.QueueTime = task.QueueTime.substr(0, 16).replace("T", " ");
+        task.QueueTime = task.QueueTime.substr(0, 16).replace('T', ' ');
       });
       setFilteredTasks(filteredTasks);
-      const filteredEmployees = hall.Employees.filter((employee) => !employee.ActiveTask);
+      const filteredEmployees = hall.Employees.filter(
+        (employee) => !employee.ActiveTask,
+      );
       setFilteredEmployees(filteredEmployees);
     }
     filter();
@@ -58,8 +60,11 @@ function ViewQueuedTasks() {
     return (
       <Dropdown.Menu>
         {filteredEmployees.map((employee) => (
-          <Dropdown.Item key={employee.id} onClick={() => setEmployee(employee)}>
-            {employee.Name + " " + employee.Surname}
+          <Dropdown.Item
+            key={employee.id}
+            onClick={() => setEmployee(employee)}
+          >
+            {employee.Name + ' ' + employee.Surname}
           </Dropdown.Item>
         ))}
         <Dropdown.Item key={0} onClick={() => setEmployee(null)}>
@@ -81,7 +86,7 @@ function ViewQueuedTasks() {
 
               {renderHallsDropdownMenu()}
             </Dropdown>
-            <div className="pt-2">{hall ? hall.Number : ""}</div>
+            <div className="pt-2">{hall ? hall.Number : ''}</div>
           </div>
         </Col>
         <Col>
@@ -93,7 +98,9 @@ function ViewQueuedTasks() {
 
               {renderEmployeesDropdownMenu()}
             </Dropdown>
-            <div className="pt-2">{employee ? employee.Name + " " + employee.Surname : ""}</div>
+            <div className="pt-2">
+              {employee ? employee.Name + ' ' + employee.Surname : ''}
+            </div>
           </div>
         </Col>
       </Row>

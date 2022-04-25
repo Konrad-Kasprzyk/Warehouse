@@ -1,9 +1,9 @@
-import { IHallRepository } from "../../../Application/Repositories/IHallRepository";
-import { ShelfPurposes } from "../../../Domain/Model/Hall/shelf";
-import { EntityManager, Repository } from "typeorm";
-import { Hall } from "../Entities/Hall.entity";
-import { ProductModel } from "../Entities/ProductModel.entity";
-import { Shelf } from "../Entities/Shelf.entity";
+import { IHallRepository } from '../../../Application/Repositories/IHallRepository';
+import { ShelfPurposes } from '../../../Domain/Model/Hall/shelf';
+import { EntityManager, Repository } from 'typeorm';
+import { Hall } from '../Entities/Hall.entity';
+import { ProductModel } from '../Entities/ProductModel.entity';
+import { Shelf } from '../Entities/Shelf.entity';
 
 export class HallRepo implements IHallRepository {
   constructor(entityManager: EntityManager) {
@@ -28,7 +28,8 @@ export class HallRepo implements IHallRepository {
 
   async RemoveHall(hallNumber: number): Promise<Hall> {
     const hall = await this.hallRepository.findOne({ Number: hallNumber });
-    if (!hall) return Promise.reject(`Hall with number ${hallNumber} not found`);
+    if (!hall)
+      return Promise.reject(`Hall with number ${hallNumber} not found`);
     return await this.hallRepository.remove(hall);
   }
 
@@ -47,7 +48,7 @@ export class HallRepo implements IHallRepository {
   FilterShelves(
     hall: Hall,
     productModel: ProductModel,
-    shelfPurpose: ShelfPurposes
+    shelfPurpose: ShelfPurposes,
   ): Promise<Shelf[]> {
     let query: {
       Hall?: Hall;

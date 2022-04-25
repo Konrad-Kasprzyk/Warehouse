@@ -1,8 +1,8 @@
-import { Task } from "../Task/task";
+import { Task } from '../Task/task';
 
 export enum Roles {
-  Employee = "Employee",
-  Manager = "Manager",
+  Employee = 'Employee',
+  Manager = 'Manager',
 }
 /** Store information about single employee, his current task and history of tasks. */
 export class Employee {
@@ -10,9 +10,9 @@ export class Employee {
    * @throws Name or surname is missing.
    */
   constructor(name: string, surname: string, role: Roles) {
-    if (!name) throw new Error("Employee name is null or empty.");
-    if (!surname) throw new Error("Employee surname is null or empty.");
-    if (!role) throw new Error("Missing employee role.");
+    if (!name) throw new Error('Employee name is null or empty.');
+    if (!surname) throw new Error('Employee surname is null or empty.');
+    if (!role) throw new Error('Missing employee role.');
 
     this.Name = name;
     this.Surname = surname;

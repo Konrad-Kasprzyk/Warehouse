@@ -1,4 +1,4 @@
-import { ProductModel } from "../../Domain/Model/ProductModel/productModel";
+import { ProductModel } from '../../Domain/Model/ProductModel/productModel';
 
 export interface IProductModelRepository {
   GetProductModel(id: number): Promise<ProductModel>;

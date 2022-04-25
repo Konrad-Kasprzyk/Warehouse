@@ -1,7 +1,7 @@
-import { Hall } from "../../Domain/Model/Hall/hall";
-import { Shelf } from "../../Domain/Model/Hall/shelf";
-import { Product } from "../../Domain/Model/Product/product";
-import { ProductModel } from "../../Domain/Model/ProductModel/productModel";
+import { Hall } from '../../Domain/Model/Hall/hall';
+import { Shelf } from '../../Domain/Model/Hall/shelf';
+import { Product } from '../../Domain/Model/Product/product';
+import { ProductModel } from '../../Domain/Model/ProductModel/productModel';
 
 export interface IProductRepository {
   GetProduct(gtin: string): Promise<Product>;
@@ -12,7 +12,7 @@ export interface IProductRepository {
     hall: Hall,
     shelf: Shelf,
     productModel: ProductModel,
-    productGtins: string[]
+    productGtins: string[],
   ): Promise<Product[]>;
 
   AddProduct(product: Product): Promise<Product>;

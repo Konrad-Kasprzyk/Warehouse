@@ -1,32 +1,32 @@
-import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import AddTask from "./Admin/AddTask";
-import ViewQueuedTasks from "./Admin/ViewQueuedTasks";
-import Blank from "./Admin/Blank";
-import ViewEmployees from "./Admin/ViewEmployees";
-import AddEmployee from "./Admin/AddEmployee";
-import React from "react";
-import AddHallOrShelf from "./Admin/AddHallOrShelf";
-import AddProductModel from "./Admin/AddProductModel";
-import ViewHallsAndAddProducts from "./Admin/ViewHallsAndAddProducts";
+import { useState } from 'react';
+import { Dropdown } from 'react-bootstrap';
+import AddTask from './Admin/AddTask';
+import ViewQueuedTasks from './Admin/ViewQueuedTasks';
+import Blank from './Admin/Blank';
+import ViewEmployees from './Admin/ViewEmployees';
+import AddEmployee from './Admin/AddEmployee';
+import React from 'react';
+import AddHallOrShelf from './Admin/AddHallOrShelf';
+import AddProductModel from './Admin/AddProductModel';
+import ViewHallsAndAddProducts from './Admin/ViewHallsAndAddProducts';
 
 function renderSwitch(view) {
   switch (view) {
-    case "AddTask":
+    case 'AddTask':
       return <AddTask />;
-    case "ViewTasks":
+    case 'ViewTasks':
       return <ViewQueuedTasks />;
-    case "ViewHallsAndAddProducts":
+    case 'ViewHallsAndAddProducts':
       return <ViewHallsAndAddProducts />;
-    case "AddEmployee":
+    case 'AddEmployee':
       return <AddEmployee />;
-    case "ViewEmployees":
+    case 'ViewEmployees':
       return <ViewEmployees />;
-    case "AddHallOrShelf":
+    case 'AddHallOrShelf':
       return <AddHallOrShelf />;
-    case "AddProductModel":
+    case 'AddProductModel':
       return <AddProductModel />;
-    case "Blank":
+    case 'Blank':
       return <Blank />;
     default:
       return <Blank />;
@@ -34,7 +34,7 @@ function renderSwitch(view) {
 }
 
 function AdminProducts() {
-  const [view, setView] = useState("Blank");
+  const [view, setView] = useState('Blank');
 
   return (
     <div className="text-center">
@@ -44,17 +44,25 @@ function AdminProducts() {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => setView("AddTask")}>Add task</Dropdown.Item>
-          <Dropdown.Item onClick={() => setView("ViewTasks")}>Activate task</Dropdown.Item>
-          <Dropdown.Item onClick={() => setView("ViewHallsAndAddProducts")}>
+          <Dropdown.Item onClick={() => setView('AddTask')}>
+            Add task
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setView('ViewTasks')}>
+            Activate task
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setView('ViewHallsAndAddProducts')}>
             View halls and add products
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => setView("AddEmployee")}>Add employee</Dropdown.Item>
-          <Dropdown.Item onClick={() => setView("AddHallOrShelf")}>Add hall or shelf</Dropdown.Item>
-          <Dropdown.Item onClick={() => setView("AddProductModel")}>
+          <Dropdown.Item onClick={() => setView('AddEmployee')}>
+            Add employee
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setView('AddHallOrShelf')}>
+            Add hall or shelf
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setView('AddProductModel')}>
             Add product model
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => setView("ViewEmployees")}>
+          <Dropdown.Item onClick={() => setView('ViewEmployees')}>
             View and manage employees
           </Dropdown.Item>
         </Dropdown.Menu>

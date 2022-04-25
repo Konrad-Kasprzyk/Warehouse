@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const productsSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState: { value: [] },
   reducers: {
     replaceAllProducts: (state, action) => {
@@ -10,7 +10,9 @@ export const productsSlice = createSlice({
 
     updateProduct: (state, action) => {
       const newProduct = action.payload;
-      const currentProductIndex = state.value.findIndex((product) => product.id === newProduct.id);
+      const currentProductIndex = state.value.findIndex(
+        (product) => product.id === newProduct.id,
+      );
       if (currentProductIndex < 0) return;
       state.value[currentProductIndex] = newProduct;
     },
@@ -22,7 +24,9 @@ export const productsSlice = createSlice({
 
     removeProduct: (state, action) => {
       const productId = action.payload;
-      const index = state.value.findIndex((product) => product.id === productId);
+      const index = state.value.findIndex(
+        (product) => product.id === productId,
+      );
       if (index < 0) return;
       state.value.splice(index, 1);
     },

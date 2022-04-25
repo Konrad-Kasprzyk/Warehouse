@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import { Button, Col, Container, ListGroup, Modal, Row } from "react-bootstrap";
-import ManagerPastTask from "./ManagerPastTask";
-import ManagerActiveTask from "./ManagerActiveTask";
+import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { Button, Col, Container, ListGroup, Modal, Row } from 'react-bootstrap';
+import ManagerPastTask from './ManagerPastTask';
+import ManagerActiveTask from './ManagerActiveTask';
 
 function ManagerEmployee(props) {
   // @ts-ignore
@@ -12,21 +12,30 @@ function ManagerEmployee(props) {
   const [employee, setEmployee] = useState(null);
 
   useEffect(() => {
-    let employee = employees.find((employee) => employee.id == props.employeeId);
+    let employee = employees.find(
+      (employee) => employee.id == props.employeeId,
+    );
     if (!employee) return;
     employee = JSON.parse(JSON.stringify(employee));
     employee.Tasks.forEach((task) => {
-      if (task.QueueTime) task.QueueTime = task.QueueTime.substr(0, 16).replace("T", " ");
-      if (task.ActiveTime) task.ActiveTime = task.ActiveTime.substr(0, 16).replace("T", " ");
-      if (task.CancelTime) task.CancelTime = task.CancelTime.substr(0, 16).replace("T", " ");
-      if (task.FinishTime) task.FinishTime = task.FinishTime.substr(0, 16).replace("T", " ");
+      if (task.QueueTime)
+        task.QueueTime = task.QueueTime.substr(0, 16).replace('T', ' ');
+      if (task.ActiveTime)
+        task.ActiveTime = task.ActiveTime.substr(0, 16).replace('T', ' ');
+      if (task.CancelTime)
+        task.CancelTime = task.CancelTime.substr(0, 16).replace('T', ' ');
+      if (task.FinishTime)
+        task.FinishTime = task.FinishTime.substr(0, 16).replace('T', ' ');
     });
     if (employee.ActiveTask) {
-      employee.ActiveTask.QueueTime = employee.ActiveTask.QueueTime.substr(0, 16).replace("T", " ");
-      employee.ActiveTask.ActiveTime = employee.ActiveTask.ActiveTime.substr(0, 16).replace(
-        "T",
-        " "
-      );
+      employee.ActiveTask.QueueTime = employee.ActiveTask.QueueTime.substr(
+        0,
+        16,
+      ).replace('T', ' ');
+      employee.ActiveTask.ActiveTime = employee.ActiveTask.ActiveTime.substr(
+        0,
+        16,
+      ).replace('T', ' ');
     }
     setEmployee(employee);
   }, [employees]);
@@ -73,13 +82,13 @@ function ManagerEmployee(props) {
         <Col>
           <div className="text-center">
             <Button onClick={() => setRenderPastTasks(!renderPastTasks)}>
-              {renderPastTasks ? "Hide finished tasks" : "Show finished tasks"}
+              {renderPastTasks ? 'Hide finished tasks' : 'Show finished tasks'}
             </Button>
           </div>
         </Col>
       </Row>
       <Row>
-        <Col>{renderPastTasks ? generatePastTasks() : ""}</Col>
+        <Col>{renderPastTasks ? generatePastTasks() : ''}</Col>
       </Row>
     </Container>
   );

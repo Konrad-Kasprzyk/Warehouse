@@ -1,9 +1,19 @@
-import { TaskCancelCauses, TaskStatuses } from "../../../Domain/Model/Task/task";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Employee } from "./Employee.entity";
-import { TaskDetails } from "./TaskDetails.entity";
-import { Task as DomainTask } from "../../../Domain/Model/Task/task";
-import { Hall } from "./Hall.entity";
+import {
+  TaskCancelCauses,
+  TaskStatuses,
+} from '../../../Domain/Model/Task/task';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Employee } from './Employee.entity';
+import { TaskDetails } from './TaskDetails.entity';
+import { Task as DomainTask } from '../../../Domain/Model/Task/task';
+import { Hall } from './Hall.entity';
 
 @Entity()
 export class Task extends DomainTask {
@@ -14,16 +24,16 @@ export class Task extends DomainTask {
   id: number;
 
   @OneToOne(() => TaskDetails, (taskDetails) => taskDetails.Task, {
-    cascade: ["insert", "update"],
+    cascade: ['insert', 'update'],
     eager: true,
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   @JoinColumn()
   TaskDetails: TaskDetails;
 
   @Column({
-    type: "simple-enum",
+    type: 'simple-enum',
     enum: TaskStatuses,
     default: TaskStatuses.Queued,
   })
@@ -39,7 +49,7 @@ export class Task extends DomainTask {
   CancelTime: Date;
 
   @Column({
-    type: "simple-enum",
+    type: 'simple-enum',
     enum: TaskCancelCauses,
     nullable: true,
   })
@@ -50,24 +60,30 @@ export class Task extends DomainTask {
 
   // Property required for ORM relation
   @OneToOne(() => Employee, (employee) => employee.ActiveTask, {
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   @JoinColumn()
   employeeActiveTask: Employee;
 
   // Property required for ORM relation
-  @ManyToOne(() => Employee, (employee) => employee.Tasks, { onDelete: "SET NULL", nullable: true })
+  @ManyToOne(() => Employee, (employee) => employee.Tasks, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   employeeFinishedTask: Employee;
 
   // Property required for ORM relation
   @ManyToOne(() => Employee, (employee) => employee.CancelledTasks, {
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   employeeCancelledTask: Employee;
 
   // Property required for ORM relation
-  @ManyToOne(() => Hall, (hall) => hall.Tasks, { onDelete: "SET NULL", nullable: true })
+  @ManyToOne(() => Hall, (hall) => hall.Tasks, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   Hall: Hall;
 }

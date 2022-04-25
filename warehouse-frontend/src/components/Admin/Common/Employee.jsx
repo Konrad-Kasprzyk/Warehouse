@@ -1,13 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import React from "react";
-import { Button, Col, Container, Dropdown, ListGroup, Modal, Row } from "react-bootstrap";
-import { EmployeeAPI } from "../../../api/employee.api";
-import { removeEmployee } from "../../../features/employees";
-import { HallAPI } from "../../../api/hall.api";
-import { updateHall } from "../../../features/halls";
-import EmployeePastTask from "./EmployeePastTask";
-import EmployeeActiveTask from "./EmployeeActiceTask";
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import React from 'react';
+import {
+  Button,
+  Col,
+  Container,
+  Dropdown,
+  ListGroup,
+  Modal,
+  Row,
+} from 'react-bootstrap';
+import { EmployeeAPI } from '../../../api/employee.api';
+import { removeEmployee } from '../../../features/employees';
+import { HallAPI } from '../../../api/hall.api';
+import { updateHall } from '../../../features/halls';
+import EmployeePastTask from './EmployeePastTask';
+import EmployeeActiveTask from './EmployeeActiceTask';
 
 function Employee(props) {
   const dispatch = useDispatch();
@@ -20,7 +28,7 @@ function Employee(props) {
   const [renderPastTasks, setRenderPastTasks] = useState(false);
   const [employee, setEmployee] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState('');
 
   function displayModal(err) {
     setModalMessage(err instanceof Error ? err.message : err);
@@ -29,7 +37,9 @@ function Employee(props) {
 
   useEffect(() => {
     if (employees.length == 0) return;
-    let employee = employees.find((employee) => employee.id == props.employeeId);
+    let employee = employees.find(
+      (employee) => employee.id == props.employeeId,
+    );
     if (!employee) return;
     setEmployee(employee);
     let tasks = JSON.parse(JSON.stringify(employee.Tasks));
@@ -37,18 +47,28 @@ function Employee(props) {
       tasks.push(...JSON.parse(JSON.stringify(employee.CancelledTasks)));
     if (employee.ActiveTask) {
       const activeTask = JSON.parse(JSON.stringify(employee.ActiveTask));
-      activeTask.QueueTime = activeTask.QueueTime.substr(0, 16).replace("T", " ");
-      activeTask.ActiveTime = activeTask.ActiveTime.substr(0, 16).replace("T", " ");
+      activeTask.QueueTime = activeTask.QueueTime.substr(0, 16).replace(
+        'T',
+        ' ',
+      );
+      activeTask.ActiveTime = activeTask.ActiveTime.substr(0, 16).replace(
+        'T',
+        ' ',
+      );
       setEmployeeActiveTask(activeTask);
     } else setEmployeeActiveTask(null);
     tasks.sort(function (a, b) {
       return a.ActiveTime - b.ActiveTime;
     });
     tasks.forEach((task) => {
-      if (task.QueueTime) task.QueueTime = task.QueueTime.substr(0, 16).replace("T", " ");
-      if (task.ActiveTime) task.ActiveTime = task.ActiveTime.substr(0, 16).replace("T", " ");
-      if (task.CancelTime) task.CancelTime = task.CancelTime.substr(0, 16).replace("T", " ");
-      if (task.FinishTime) task.FinishTime = task.FinishTime.substr(0, 16).replace("T", " ");
+      if (task.QueueTime)
+        task.QueueTime = task.QueueTime.substr(0, 16).replace('T', ' ');
+      if (task.ActiveTime)
+        task.ActiveTime = task.ActiveTime.substr(0, 16).replace('T', ' ');
+      if (task.CancelTime)
+        task.CancelTime = task.CancelTime.substr(0, 16).replace('T', ' ');
+      if (task.FinishTime)
+        task.FinishTime = task.FinishTime.substr(0, 16).replace('T', ' ');
     });
     setEmployeeFinishedTasks(tasks);
   }, [employees]);
@@ -66,7 +86,10 @@ function Employee(props) {
 
   async function changeEmployeeHall(newHallId) {
     try {
-      const newHall = await HallAPI.moveEmployeeToAnotherHall(props.employeeId, newHallId);
+      const newHall = await HallAPI.moveEmployeeToAnotherHall(
+        props.employeeId,
+        newHallId,
+      );
       const oldHall = await HallAPI.get(props.hallNumber);
       dispatch(updateHall(oldHall));
       dispatch(updateHall(newHall));
@@ -146,12 +169,12 @@ function Employee(props) {
       <Row className="p-2">
         <Col>
           <Button onClick={() => setRenderPastTasks(!renderPastTasks)}>
-            {renderPastTasks ? "Hide tasks" : "Show tasks"}
+            {renderPastTasks ? 'Hide tasks' : 'Show tasks'}
           </Button>
         </Col>
       </Row>
       <Row>
-        <Col>{renderPastTasks ? generatePastTasks() : ""}</Col>
+        <Col>{renderPastTasks ? generatePastTasks() : ''}</Col>
       </Row>
       <Modal show={showModal} onHide={() => setShowModal(!showModal)}>
         <Modal.Header closeButton>

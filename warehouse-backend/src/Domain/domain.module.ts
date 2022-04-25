@@ -1,5 +1,5 @@
-import { Module } from "@nestjs/common";
-import { TaskManager } from "./Service/task-manager.service";
+import { Module } from '@nestjs/common';
+import { TaskManager } from './Service/task-manager.service';
 
 @Module({
   controllers: [],

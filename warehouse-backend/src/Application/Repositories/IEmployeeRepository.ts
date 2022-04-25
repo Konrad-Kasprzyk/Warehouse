@@ -1,5 +1,5 @@
-import { Employee, Roles } from "../../Domain/Model/Employee/employee";
-import { Hall } from "../../Domain/Model/Hall/hall";
+import { Employee, Roles } from '../../Domain/Model/Employee/employee';
+import { Hall } from '../../Domain/Model/Hall/hall';
 
 export interface IEmployeeRepository {
   GetAllEmployees(): Promise<Employee[]>;

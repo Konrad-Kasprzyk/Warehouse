@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import { Employee, Roles } from "../Model/Employee/employee";
-import { Hall } from "../Model/Hall/hall";
-import { Shelf } from "../Model/Hall/shelf";
-import { Product } from "../Model/Product/product";
-import { Task, TaskCancelCauses, TaskStatuses } from "../Model/Task/task";
+import { Injectable } from '@nestjs/common';
+import { Employee, Roles } from '../Model/Employee/employee';
+import { Hall } from '../Model/Hall/hall';
+import { Shelf } from '../Model/Hall/shelf';
+import { Product } from '../Model/Product/product';
+import { Task, TaskCancelCauses, TaskStatuses } from '../Model/Task/task';
 
 /**
  * Use this class to activate, cancel or finish tasks.
@@ -18,10 +18,11 @@ export class TaskManager {
    * @returns Null when operation is successful, error message otherwise.
    */
   ActivateTask(task: Task, employee: Employee): null | string {
-    if (!task) return "Task is not provided.";
-    if (task.Status != TaskStatuses.Queued) return "Task doesn't have queued status.";
-    if (!employee) return "Employee is not provided";
-    if (employee.ActiveTask) return "Employee already has an active task.";
+    if (!task) return 'Task is not provided.';
+    if (task.Status != TaskStatuses.Queued)
+      return "Task doesn't have queued status.";
+    if (!employee) return 'Employee is not provided';
+    if (employee.ActiveTask) return 'Employee already has an active task.';
     try {
       task.Activate();
     } catch (error) {
@@ -39,12 +40,18 @@ export class TaskManager {
    * @param cancelCause Cancel cause.
    * @returns Null when operation is successful, error message otherwise.
    */
-  CancelTask(employee: Employee, manager: Employee, cancelCause: TaskCancelCauses): null | string {
-    if (!manager) return "Missing manager.";
-    if (!employee) return "Missing employee.";
-    if (!cancelCause) return "Missing task cancel cause.";
-    if (manager.Role != Roles.Manager) return "Provided manager is normal employee.";
-    if (!employee.ActiveTask) return "Provided employee doesn't have active task";
+  CancelTask(
+    employee: Employee,
+    manager: Employee,
+    cancelCause: TaskCancelCauses,
+  ): null | string {
+    if (!manager) return 'Missing manager.';
+    if (!employee) return 'Missing employee.';
+    if (!cancelCause) return 'Missing task cancel cause.';
+    if (manager.Role != Roles.Manager)
+      return 'Provided manager is normal employee.';
+    if (!employee.ActiveTask)
+      return "Provided employee doesn't have active task";
     if (employee.ActiveTask.Status != TaskStatuses.Active)
       return "Task to cancel doesn't have active status";
     try {
@@ -66,39 +73,47 @@ export class TaskManager {
    * @param taskProducts Products placed on the destination shelf.
    * @returns Null when operation is successful, error message otherwise.
    */
-  FinishTask(employee: Employee, hall: Hall, taskProducts: Product[]): null | string {
-    if (!employee) return "Missing Employee.";
-    if (!hall) return "Missing Hall.";
-    if (!employee.ActiveTask) return "Employee has no active task to finish.";
+  FinishTask(
+    employee: Employee,
+    hall: Hall,
+    taskProducts: Product[],
+  ): null | string {
+    if (!employee) return 'Missing Employee.';
+    if (!hall) return 'Missing Hall.';
+    if (!employee.ActiveTask) return 'Employee has no active task to finish.';
     if (employee.ActiveTask.Status != TaskStatuses.Active)
-      return "Active task of the employee has not an active status.";
+      return 'Active task of the employee has not an active status.';
     if (!employee.ActiveTask.TaskDetails.IsCompleted())
-      return "Task is not completed to change his status to finished and make changes to shelves.";
+      return 'Task is not completed to change his status to finished and make changes to shelves.';
     if (!taskProducts || taskProducts.length == 0)
-      return "Products placed on the shelf were not provided.";
-    for (const productGtin of employee.ActiveTask.TaskDetails.StoredProductsGtins) {
+      return 'Products placed on the shelf were not provided.';
+    for (const productGtin of employee.ActiveTask.TaskDetails
+      .StoredProductsGtins) {
       if (!taskProducts.some((product) => product.Gtin == productGtin))
-        return "Not all products placed on the shelf were provided.";
+        return 'Not all products placed on the shelf were provided.';
     }
     // Update shelves
     const startingShelf: Shelf = hall.Shelves.find(
-      (s) => s.Gtin == employee.ActiveTask.TaskDetails.StartingShelfGtin
+      (s) => s.Gtin == employee.ActiveTask.TaskDetails.StartingShelfGtin,
     );
-    if (!startingShelf) return "Starting shelf not found";
+    if (!startingShelf) return 'Starting shelf not found';
 
-    for (const productGtin of employee.ActiveTask.TaskDetails.StoredProductsGtins) {
+    for (const productGtin of employee.ActiveTask.TaskDetails
+      .StoredProductsGtins) {
       if (!startingShelf.RemoveProduct(productGtin))
         return "One of products picked up from starting shelf couldn't be removed from shelf.";
     }
 
     const destinationShelf: Shelf = hall.Shelves.find(
-      (s) => s.Gtin == employee.ActiveTask.TaskDetails.DestinationShelfGtin
+      (s) => s.Gtin == employee.ActiveTask.TaskDetails.DestinationShelfGtin,
     );
-    if (!destinationShelf) return "Destination shelf not found";
+    if (!destinationShelf) return 'Destination shelf not found';
 
-    for (const productGtin of employee.ActiveTask.TaskDetails.StoredProductsGtins) {
+    for (const productGtin of employee.ActiveTask.TaskDetails
+      .StoredProductsGtins) {
       let product: Product = taskProducts.find((p) => p.Gtin == productGtin);
-      if (!product) return "One of products placed on the destination shelf couldn't be found.";
+      if (!product)
+        return "One of products placed on the destination shelf couldn't be found.";
       if (!destinationShelf.AddProduct(product))
         return "One of stored products couldn't be added to destination shelf";
     }

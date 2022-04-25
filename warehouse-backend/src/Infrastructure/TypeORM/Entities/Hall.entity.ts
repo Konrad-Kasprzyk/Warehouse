@@ -1,4 +1,4 @@
-import { Hall as DomainHall } from "../../../Domain/Model/Hall/hall";
+import { Hall as DomainHall } from '../../../Domain/Model/Hall/hall';
 import {
   AfterInsert,
   AfterLoad,
@@ -9,11 +9,11 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Employee } from "./Employee.entity";
-import { Product } from "./Product.entity";
-import { Shelf } from "./Shelf.entity";
-import { Task } from "./Task.entity";
+} from 'typeorm';
+import { Employee } from './Employee.entity';
+import { Product } from './Product.entity';
+import { Shelf } from './Shelf.entity';
+import { Task } from './Task.entity';
 
 @Entity()
 export class Hall extends DomainHall {
@@ -28,36 +28,43 @@ export class Hall extends DomainHall {
 
   @OneToMany(() => Employee, (employee) => employee.Hall, {
     eager: true,
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   Employees: Employee[];
 
   @OneToMany(() => Shelf, (shelf) => shelf.Hall, {
-    cascade: ["insert", "update"],
+    cascade: ['insert', 'update'],
     eager: true,
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   Shelves: Shelf[];
 
   @OneToMany(() => Product, (product) => product.Hall, {
     eager: true,
-    onDelete: "SET NULL",
+    onDelete: 'SET NULL',
     nullable: true,
   })
   Products: Product[];
 
-  @OneToMany(() => Task, (task) => task.Hall, { eager: true, onDelete: "SET NULL", nullable: true })
+  @OneToMany(() => Task, (task) => task.Hall, {
+    eager: true,
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   Tasks: Task[];
 
   @BeforeInsert()
   @BeforeUpdate()
   async emptyArrayChecks() {
-    if (Array.isArray(this.Employees) && this.Employees.length == 0) this.Employees = null;
-    if (Array.isArray(this.Shelves) && this.Shelves.length == 0) this.Shelves = null;
+    if (Array.isArray(this.Employees) && this.Employees.length == 0)
+      this.Employees = null;
+    if (Array.isArray(this.Shelves) && this.Shelves.length == 0)
+      this.Shelves = null;
     if (Array.isArray(this.Tasks) && this.Tasks.length == 0) this.Tasks = null;
-    if (Array.isArray(this.Products) && this.Products.length == 0) this.Products = null;
+    if (Array.isArray(this.Products) && this.Products.length == 0)
+      this.Products = null;
   }
 
   @AfterLoad()

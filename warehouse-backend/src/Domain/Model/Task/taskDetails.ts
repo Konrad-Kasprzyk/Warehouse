@@ -1,5 +1,5 @@
-import { Shelf } from "../Hall/shelf";
-import { Product } from "../Product/product";
+import { Shelf } from '../Hall/shelf';
+import { Product } from '../Product/product';
 
 /** Store task details like shelves to scan and scanned products. */
 export class TaskDetails {
@@ -8,22 +8,34 @@ export class TaskDetails {
    * Starting shelf is missing product model. Starting and destination shelves
    * store different product model.
    */
-  constructor(scansRequired: number, startingShelf: Shelf, destinationShelf: Shelf) {
+  constructor(
+    scansRequired: number,
+    startingShelf: Shelf,
+    destinationShelf: Shelf,
+  ) {
     if (!scansRequired || scansRequired < 1)
-      throw new Error("Required scans are missing or below 1.");
-    if (!startingShelf) throw new Error("TaskDetails is missing starting shelf.");
-    if (!startingShelf.ProductModelPartNumber || !startingShelf.ProductModelBrand)
-      throw new Error("Starting shelf is missing product model.");
-    if (!destinationShelf) throw new Error("TaskDetails is missing destination shelf.");
+      throw new Error('Required scans are missing or below 1.');
+    if (!startingShelf)
+      throw new Error('TaskDetails is missing starting shelf.');
+    if (
+      !startingShelf.ProductModelPartNumber ||
+      !startingShelf.ProductModelBrand
+    )
+      throw new Error('Starting shelf is missing product model.');
+    if (!destinationShelf)
+      throw new Error('TaskDetails is missing destination shelf.');
     if (startingShelf == destinationShelf)
-      throw new Error("Starting and destination shelf are the same shelf.");
+      throw new Error('Starting and destination shelf are the same shelf.');
     if (
       destinationShelf.ProductModelPartNumber &&
       destinationShelf.ProductModelBrand &&
-      (startingShelf.ProductModelPartNumber != destinationShelf.ProductModelPartNumber ||
+      (startingShelf.ProductModelPartNumber !=
+        destinationShelf.ProductModelPartNumber ||
         startingShelf.ProductModelBrand != destinationShelf.ProductModelBrand)
     )
-      throw new Error("Starting shelf has an invalid product model for the destination shelf.");
+      throw new Error(
+        'Starting shelf has an invalid product model for the destination shelf.',
+      );
     this.ScansRequired = scansRequired;
     this.ProductModelPartNumber = startingShelf.ProductModelPartNumber;
     this.ProductModelBrand = startingShelf.ProductModelBrand;
@@ -52,7 +64,10 @@ export class TaskDetails {
    */
   ScanShelf(shelf: Shelf): boolean {
     if (!shelf || !shelf.Gtin) return false;
-    if (this.StartingShelfGtin != shelf.Gtin && this.DestinationShelfGtin != shelf.Gtin)
+    if (
+      this.StartingShelfGtin != shelf.Gtin &&
+      this.DestinationShelfGtin != shelf.Gtin
+    )
       return false;
     this.ScannedShelfGtin = shelf.Gtin;
     return true;
@@ -91,7 +106,10 @@ export class TaskDetails {
       return true;
     }
     // Picking product from starting shelf
-    if (this.PickedUpProductsGtins.length + this.StoredProductsGtins.length >= this.ScansRequired)
+    if (
+      this.PickedUpProductsGtins.length + this.StoredProductsGtins.length >=
+      this.ScansRequired
+    )
       return false;
     if (this.ScannedShelfGtin != this.StartingShelfGtin) return false;
     this.PickedUpProductsGtins.push(product.Gtin);

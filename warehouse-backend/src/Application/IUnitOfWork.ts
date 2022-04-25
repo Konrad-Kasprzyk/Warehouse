@@ -1,8 +1,8 @@
-import { IEmployeeRepository } from "./Repositories/IEmployeeRepository";
-import { IHallRepository } from "./Repositories/IHallRepository";
-import { IProductModelRepository } from "./Repositories/IProductModelRepository";
-import { IProductRepository } from "./Repositories/IProductRepository";
-import { ITaskRepository } from "./Repositories/ITaskRepository";
+import { IEmployeeRepository } from './Repositories/IEmployeeRepository';
+import { IHallRepository } from './Repositories/IHallRepository';
+import { IProductModelRepository } from './Repositories/IProductModelRepository';
+import { IProductRepository } from './Repositories/IProductRepository';
+import { ITaskRepository } from './Repositories/ITaskRepository';
 
 export interface IUnitOfWork {
   /** If an error is thrown or the promise is rejected on the callback,

@@ -1,15 +1,15 @@
-const URL = "http://127.0.0.1:5000/task/";
+const URL = 'http://127.0.0.1:5000/task/';
 
 export class TaskAPI {
   static async getAll() {
-    const response = await fetch(URL, { method: "GET" });
+    const response = await fetch(URL, { method: 'GET' });
     const data = await response.json();
     if (response.ok) return data;
     return Promise.reject(data.message);
   }
 
   static async get(id) {
-    const response = await fetch(URL + id, { method: "GET" });
+    const response = await fetch(URL + id, { method: 'GET' });
     const data = await response.json();
     if (response.ok) return data;
     return Promise.reject(data.message);
@@ -17,24 +17,36 @@ export class TaskAPI {
 
   static async filter(hallNumber, employeeId, taskStatus, activationDate) {
     const queryParams = new URLSearchParams();
-    if (hallNumber) queryParams.append("hallNumber", hallNumber);
-    if (employeeId) queryParams.append("employeeId", employeeId);
-    if (taskStatus) queryParams.append("taskStatus", taskStatus);
-    if (activationDate) queryParams.append("activationDate", activationDate);
-    const response = await fetch(URL + "filter?" + queryParams, { method: "GET" });
+    if (hallNumber) queryParams.append('hallNumber', hallNumber);
+    if (employeeId) queryParams.append('employeeId', employeeId);
+    if (taskStatus) queryParams.append('taskStatus', taskStatus);
+    if (activationDate) queryParams.append('activationDate', activationDate);
+    const response = await fetch(URL + 'filter?' + queryParams, {
+      method: 'GET',
+    });
     const data = await response.json();
     if (response.ok) return data;
     return Promise.reject(data.message);
   }
 
-  static async add(hallNumber, startingShelfGtin, destinationShelfGtin, scansRequired) {
+  static async add(
+    hallNumber,
+    startingShelfGtin,
+    destinationShelfGtin,
+    scansRequired,
+  ) {
     const response = await fetch(URL, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ hallNumber, startingShelfGtin, destinationShelfGtin, scansRequired }),
+      body: JSON.stringify({
+        hallNumber,
+        startingShelfGtin,
+        destinationShelfGtin,
+        scansRequired,
+      }),
     });
     const data = await response.json();
     if (response.ok) return data;
@@ -42,11 +54,11 @@ export class TaskAPI {
   }
 
   static async delete(id) {
-    const response = await fetch(URL + "delete", {
-      method: "POST",
+    const response = await fetch(URL + 'delete', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ id }),
     });
@@ -56,11 +68,11 @@ export class TaskAPI {
   }
 
   static async scanProduct(taskId, productGtin) {
-    const response = await fetch(URL + "scanProduct", {
-      method: "POST",
+    const response = await fetch(URL + 'scanProduct', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ taskId, productGtin }),
     });
@@ -70,11 +82,11 @@ export class TaskAPI {
   }
 
   static async scanShelf(taskId, shelfGtin) {
-    const response = await fetch(URL + "scanShelf", {
-      method: "POST",
+    const response = await fetch(URL + 'scanShelf', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ taskId, shelfGtin }),
     });
@@ -84,11 +96,11 @@ export class TaskAPI {
   }
 
   static async activateTask(taskId, assignedEmployeeId) {
-    const response = await fetch(URL + "activateTask", {
-      method: "POST",
+    const response = await fetch(URL + 'activateTask', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ taskId, assignedEmployeeId }),
     });
@@ -98,11 +110,11 @@ export class TaskAPI {
   }
 
   static async finishTask(employeeId, hallNumber) {
-    const response = await fetch(URL + "finishTask", {
-      method: "POST",
+    const response = await fetch(URL + 'finishTask', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ employeeId, hallNumber }),
     });
@@ -112,11 +124,11 @@ export class TaskAPI {
   }
 
   static async cancelTask(employeeId, managerId, taskCancelCause) {
-    const response = await fetch(URL + "cancelTask", {
-      method: "POST",
+    const response = await fetch(URL + 'cancelTask', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ employeeId, managerId, taskCancelCause }),
     });

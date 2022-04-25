@@ -1,8 +1,8 @@
-import { IEmployeeRepository } from "../../../Application/Repositories/IEmployeeRepository";
-import { Roles } from "../../../Domain/Model/Employee/employee";
-import { EntityManager, Repository } from "typeorm";
-import { Employee } from "../Entities/Employee.entity";
-import { Hall } from "../Entities/Hall.entity";
+import { IEmployeeRepository } from '../../../Application/Repositories/IEmployeeRepository';
+import { Roles } from '../../../Domain/Model/Employee/employee';
+import { EntityManager, Repository } from 'typeorm';
+import { Employee } from '../Entities/Employee.entity';
+import { Hall } from '../Entities/Hall.entity';
 
 export class EmployeeRepo implements IEmployeeRepository {
   constructor(entityManager: EntityManager) {

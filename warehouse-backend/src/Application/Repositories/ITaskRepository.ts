@@ -1,6 +1,6 @@
-import { Employee } from "../../Domain/Model/Employee/employee";
-import { Hall } from "../../Domain/Model/Hall/hall";
-import { Task, TaskStatuses } from "../../Domain/Model/Task/task";
+import { Employee } from '../../Domain/Model/Employee/employee';
+import { Hall } from '../../Domain/Model/Hall/hall';
+import { Task, TaskStatuses } from '../../Domain/Model/Task/task';
 
 export interface ITaskRepository {
   AddTask(task: Task): Promise<Task>;
@@ -11,7 +11,7 @@ export interface ITaskRepository {
     hall: Hall,
     employee: Employee,
     status: TaskStatuses,
-    activationDate: Date
+    activationDate: Date,
   ): Promise<Task[]>;
 
   GetTask(id: number): Promise<Task>;

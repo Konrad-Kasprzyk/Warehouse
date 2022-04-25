@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Button, Col, Container, Dropdown, Modal, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { EmployeeAPI } from "../../api/employee.api";
+import React, { useState } from 'react';
+import { Button, Col, Container, Dropdown, Modal, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { EmployeeAPI } from '../../api/employee.api';
 
 function AddEmployee() {
   // @ts-ignore
   const halls = useSelector((state) => state.halls.value);
-  const [hallNumber, setHallNumber] = useState("");
-  const [role, setRole] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
+  const [hallNumber, setHallNumber] = useState('');
+  const [role, setRole] = useState('');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
 
   function displayModal(err, title) {
     setModalTitle(title);
@@ -24,7 +24,10 @@ function AddEmployee() {
     return (
       <Dropdown.Menu>
         {halls.map((hall) => (
-          <Dropdown.Item key={hall.id} onClick={() => setHallNumber(hall.Number)}>
+          <Dropdown.Item
+            key={hall.id}
+            onClick={() => setHallNumber(hall.Number)}
+          >
             {hall.Number}
           </Dropdown.Item>
         ))}
@@ -34,14 +37,14 @@ function AddEmployee() {
 
   async function addEmployee() {
     try {
-      if (!hallNumber) throw new Error("Choose hall");
-      if (!role) throw new Error("Choose employee role");
-      if (!name) throw new Error("Please enter name");
-      if (!surname) throw new Error("Please enter surname");
+      if (!hallNumber) throw new Error('Choose hall');
+      if (!role) throw new Error('Choose employee role');
+      if (!name) throw new Error('Please enter name');
+      if (!surname) throw new Error('Please enter surname');
       await EmployeeAPI.add(hallNumber, role, name, surname);
-      displayModal(`${role} ${name} ${surname} added.`, "Employee added");
+      displayModal(`${role} ${name} ${surname} added.`, 'Employee added');
     } catch (err) {
-      displayModal(err, "Employee not added");
+      displayModal(err, 'Employee not added');
     }
   }
 
@@ -67,8 +70,12 @@ function AddEmployee() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setRole("Employee")}>Employee</Dropdown.Item>
-              <Dropdown.Item onClick={() => setRole("Manager")}>Manager</Dropdown.Item>
+              <Dropdown.Item onClick={() => setRole('Employee')}>
+                Employee
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setRole('Manager')}>
+                Manager
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {role}

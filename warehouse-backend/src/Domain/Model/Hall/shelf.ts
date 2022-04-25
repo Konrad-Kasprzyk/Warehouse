@@ -1,9 +1,9 @@
-import { Product } from "../Product/product";
+import { Product } from '../Product/product';
 
 export enum ShelfPurposes {
-  Storage = "Storage",
-  Delivery = "Delivery",
-  Shipment = "Shipment",
+  Storage = 'Storage',
+  Delivery = 'Delivery',
+  Shipment = 'Shipment',
 }
 
 /** Store single shelf information and products put on it. */
@@ -12,9 +12,10 @@ export class Shelf {
    * @throws Shelf number is missing or below zero or shelf GTIN is null or empty
    */
   constructor(number: number, gtin: string, shelfPurpose: ShelfPurposes) {
-    if (!number || number < 0) throw new Error("Hall number is missing or below zero.");
-    if (!gtin) throw new Error("Shelf GTIN is null or empty.");
-    if (!shelfPurpose) throw new Error("Missing shelf purpose.");
+    if (!number || number < 0)
+      throw new Error('Hall number is missing or below zero.');
+    if (!gtin) throw new Error('Shelf GTIN is null or empty.');
+    if (!shelfPurpose) throw new Error('Missing shelf purpose.');
 
     this.Number = number;
     this.Gtin = gtin;

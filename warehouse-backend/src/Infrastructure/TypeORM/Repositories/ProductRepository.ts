@@ -1,9 +1,9 @@
-import { IProductRepository } from "../../../Application/Repositories/IProductRepository";
-import { EntityManager, FindOperator, In, Repository } from "typeorm";
-import { Hall } from "../Entities/Hall.entity";
-import { Product } from "../Entities/Product.entity";
-import { ProductModel } from "../Entities/ProductModel.entity";
-import { Shelf } from "../Entities/Shelf.entity";
+import { IProductRepository } from '../../../Application/Repositories/IProductRepository';
+import { EntityManager, FindOperator, In, Repository } from 'typeorm';
+import { Hall } from '../Entities/Hall.entity';
+import { Product } from '../Entities/Product.entity';
+import { ProductModel } from '../Entities/ProductModel.entity';
+import { Shelf } from '../Entities/Shelf.entity';
 
 export class ProductRepo implements IProductRepository {
   constructor(entityManager: EntityManager) {
@@ -27,7 +27,7 @@ export class ProductRepo implements IProductRepository {
     hall: Hall,
     shelf: Shelf,
     productModel: ProductModel,
-    productGtins: string[]
+    productGtins: string[],
   ): Promise<Product[]> {
     let query: {
       Hall?: Hall;

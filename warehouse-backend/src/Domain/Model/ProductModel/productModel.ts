@@ -4,7 +4,8 @@ export class ProductModel {
    * @throws Brand or part number is empty or null
    */
   constructor(partNumber: string, brand: string, name: string) {
-    if (!brand || !partNumber) throw new Error("Brand or part number is empty or null");
+    if (!brand || !partNumber)
+      throw new Error('Brand or part number is empty or null');
     this.Name = name;
     this.Brand = brand;
     this.PartNumber = partNumber;
